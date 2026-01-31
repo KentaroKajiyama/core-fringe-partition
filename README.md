@@ -1,11 +1,21 @@
 ## Core Fringe Partition
 
 This repository implements the core-fringe partitioning algorithm for graph analysis.
-We use the binetflow dataset from the Stratosphere IPS dataset (ref : Garcia, Sebastian. Malware Capture Facility Project. Retrieved from https://stratosphereips.org).
+We use the binetflow dataset from the Stratosphere IPS dataset[^1].
 
 The entry point of the program is `main.rs`.
 
 ### Usage
+
+First, install the dependencies.
+
+```bash
+cd viz
+python -m venv .venv
+pip install -r requirements.txt
+```
+
+Then, run the program.
 
 ```bash
 cargo run (-- release) -- <file_path>
@@ -44,8 +54,12 @@ binetflow dataset has the following columns:
 
 We use the SrcAddr and DstAddr as nodes, and the Label as the edge label.
 
+We can overlook the distribution of the data in Figure 1.
 
-#### k-core algorithm
+![Figure 1 : Distribution of the data (ICMP DDoS attack scenario) (Botnet : Red Node, Normal : Blue Node)](./viz/core_fringe_graph.png)
+
+
+#### k-core algorithm[^2]
 
 Then we compute the k-core of the graph. The k-core is the largest subgraph in which all nodes have degree at least k. We use the default value of k = 3. k-core is computed using the `compute_k_core` method of the Graph struct. The algorithm follows that :
 
@@ -98,3 +112,7 @@ Core: 366 | IP: 147.32.86.122   | Label: flow=To-Background-UDP-CVUT-DNS-Server
 Core: 322 | IP: 188.138.84.239  | Label: flow=Background-TCP-Established
 Core: 311 | IP: 147.32.86.135   | Label: flow=Background
 Core: 280 | IP: 147.32.84.118   | Label: flow=Background-TCP-Attempt
+
+[^1]: Garcia, Sebastian. Malware Capture Facility Project. Retrieved from https://stratosphereips.org
+
+[^2]: Matula, D. W., & Beck, L. L. (1983). Smallest-last ordering and clustering and graph coloring algorithms. Journal of the ACM (JACM), 30(3), 417-427.

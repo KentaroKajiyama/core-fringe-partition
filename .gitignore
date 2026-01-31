@@ -1,2 +1,12 @@
+# Rust 
 /target
 *.binetflow
+**/*.rs.bk
+
+# Python 仮想環境
+viz/.venv/
+viz/__pycache__/
+viz/nodes.csv
+viz/edges.csv
+viz/graph.html
+viz/lib

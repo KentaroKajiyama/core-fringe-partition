@@ -3,6 +3,8 @@ mod graphio;
 
 use std::env;
 use std::io::{BufRead};
+use std::fs::File;
+use std::io::Write;
 use graph::GraphBuilder;
 
 fn main() {
@@ -63,6 +65,36 @@ fn main() {
     
     // Core Number の降順でソート
     nodes_with_k.sort_by(|a, b| b.0.cmp(&a.0));
+
+    // --- 可視化用 CSV の出力 ---
+    
+    // 1. ノードリストの出力 (ID, IPアドレス, K-Core値, ラベル)
+    let mut node_file = File::create("viz/nodes.csv").expect("Failed to create nodes.csv");
+    writeln!(node_file, "id,label,k_core,category").unwrap();
+    for i in 0..graph.n {
+        writeln!(
+            node_file, 
+            "{},{},{},{}", 
+            i, 
+            graph.nodes[i], 
+            cores[i], 
+            graph.labels[i].replace(',', ";") // CSV 壊れ防止
+        ).unwrap();
+    }
+
+    // 2. エッジリストの出力 (Source ID, Target ID)
+    let mut edge_file = File::create("viz/edges.csv").expect("Failed to create edges.csv");
+    writeln!(edge_file, "source,target").unwrap();
+    for u in 0..graph.n {
+        for &v in &graph.adj[u] {
+            // 無向グラフなので、重複を避けるために u < v の場合のみ出力
+            if u < v {
+                writeln!(edge_file, "{},{}", u, v).unwrap();
+            }
+        }
+    }
+
+    println!("CSV files for visualization created in viz/ directory.");
 
     // 上位20件を表示
     for (k, id) in nodes_with_k.iter().take(20) {
