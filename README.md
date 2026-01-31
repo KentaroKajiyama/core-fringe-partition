@@ -20,6 +20,12 @@ Then, run the program.
 cargo run (-- release) -- <file_path>
 ```
 
+You can visualize the graph using the `viz` directory.
+
+```bash
+python visualize.py
+```
+
 ## Example
 
 ```bash
