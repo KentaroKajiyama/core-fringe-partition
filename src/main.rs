@@ -48,7 +48,8 @@ fn main() {
     
     // グラフ構築
     let graph = builder.build();
-    println!("Graph built: {} nodes", graph.n);
+    let total_edges: usize = graph.adj.iter().map(|neighbors| neighbors.len()).sum::<usize>() / 2;
+    println!("Graph built: {} nodes, {} edges", graph.n, total_edges);
 
     // K-Core分解の実行
     let cores = graph.compute_k_core();
