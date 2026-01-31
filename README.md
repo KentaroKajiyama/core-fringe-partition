@@ -26,6 +26,8 @@ You can visualize the graph using the `viz` directory.
 python visualize.py
 ```
 
+This script exports a HTML file that can be opened in a web browser, and you can see the analyzed graph.
+
 ## Example
 
 ```bash
